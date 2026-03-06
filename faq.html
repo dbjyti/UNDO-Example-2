@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQs — UNDO® Non-Laser Tattoo Removal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero {
+      padding-top: var(--nav-h); min-height: 50vh;
+      display: flex; align-items: flex-end;
+      background: radial-gradient(ellipse at 70% 30%, rgba(201,169,110,0.06) 0%, transparent 55%), linear-gradient(160deg, #0A0907 0%, #110F0C 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'FAQ'; position: absolute; right: 0; bottom: -3rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 18rem; font-weight: 300;
+      color: rgba(201,169,110,0.04); pointer-events: none;
+    }
+    .page-hero-inner { padding: 5rem 5vw; max-width: 1200px; width: 100%; margin: 0 auto; }
+    .page-hero h1 { font-size: clamp(3rem,7vw,5.5rem); font-weight: 300; margin-top: 0.8rem; }
+    .page-hero h1 em { color: var(--gold); }
+    .breadcrumb { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); } .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); margin: 0 0.5rem; }
+
+    /* ── FAQ SECTION ── */
+    .faq-section { padding: 8rem 5vw; max-width: 1200px; margin: 0 auto; }
+    .faq-layout { display: grid; grid-template-columns: 280px 1fr; gap: 5rem; align-items: start; }
+
+    /* Sticky sidebar */
+    .faq-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); }
+    .faq-sidebar h3 { font-size: 1rem; font-weight: 400; margin-bottom: 1.2rem; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; }
+    .faq-nav { list-style: none; }
+    .faq-nav li a {
+      display: block; padding: 0.7rem 0;
+      font-size: 0.78rem; letter-spacing: 0.06em;
+      color: var(--muted); border-bottom: 1px solid var(--border);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .faq-nav li a:hover { color: var(--gold); padding-left: 0.5rem; }
+    .faq-search {
+      margin-bottom: 1.8rem;
+    }
+    .faq-search input {
+      width: 100%; background: var(--bg2); border: 1px solid var(--border);
+      color: var(--cream); font-family: 'Jost', sans-serif; font-size: 0.85rem;
+      padding: 0.8rem 1rem; outline: none;
+    }
+    .faq-search input:focus { border-color: var(--gold-dk); }
+    .faq-search input::placeholder { color: var(--muted); }
+
+    /* FAQ groups */
+    .faq-group { margin-bottom: 4rem; scroll-margin-top: calc(var(--nav-h) + 2rem); }
+    .faq-group-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.8rem;
+      margin-bottom: 1.5rem; padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .faq-group-title .label { font-size: 0.62rem; margin-top: 0.2rem; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.3rem 0; cursor: pointer;
+      font-size: 0.95rem; font-weight: 400; color: var(--cream);
+      transition: color 0.2s; gap: 1rem;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-icon { font-size: 1.2rem; color: var(--gold); transition: transform 0.3s; flex-shrink: 0; }
+    .faq-a {
+      font-size: 0.88rem; color: var(--cream-dk); line-height: 1.8;
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.4rem; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-item.open .faq-q { color: var(--gold); }
+    .faq-a a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* not found */
+    .no-results { text-align: center; padding: 3rem 0; color: var(--muted); display: none; }
+
+    /* ── STILL HAVE QUESTIONS ── */
+    .still-questions { background: var(--bg2); padding: 6rem 5vw; text-align: center; }
+    .still-questions h2 { font-size: clamp(2rem,4vw,3rem); }
+    .still-questions p { font-size: 0.95rem; color: var(--cream-dk); margin: 1rem auto 2.5rem; max-width: 500px; }
+
+    @media (max-width: 900px) {
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">UN<span>DO</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="training.html">Training</a></li><li><a href="gallery.html">Before & After</a></li>
+    <li><a href="faq.html" class="active">FAQs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="training.html">Training</a>
+  <a href="gallery.html">Before & After</a><a href="faq.html">FAQs</a><a href="contact.html">Contact</a>
+</div>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb animate-fadeup"><a href="index.html">Home</a><span>›</span>FAQs</div>
+    <span class="label animate-fadeup delay-1">Common Questions</span>
+    <h1 class="animate-fadeup delay-2">Frequently Asked <em>Questions</em></h1>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="faq-layout">
+    <!-- SIDEBAR -->
+    <aside class="faq-sidebar reveal">
+      <div class="faq-search">
+        <input type="text" id="faqSearch" placeholder="Search questions…" />
+      </div>
+      <h3>Jump to Section</h3>
+      <ul class="faq-nav">
+        <li><a href="#general">General Questions</a></li>
+        <li><a href="#treatment">Treatment & Safety</a></li>
+        <li><a href="#results">Results & Expectations</a></li>
+        <li><a href="#training">Training & Certification</a></li>
+        <li><a href="#pricing">Pricing & Booking</a></li>
+      </ul>
+    </aside>
+
+    <!-- FAQ CONTENT -->
+    <div id="faqContent">
+
+      <!-- GENERAL -->
+      <div class="faq-group reveal" id="general">
+        <div class="faq-group-title"><span class="label">01</span>General Questions</div>
+        <div class="faq-item">
+          <div class="faq-q">What is UNDO® Non-Laser Tattoo Removal?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® is a patent-pending, multi-step non-laser pigment removal system formulated with natural ingredients. It safely removes unwanted permanent makeup, scalp micropigmentation, and small to medium body tattoos — without the burns, scarring, or downtime associated with laser treatment.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How is UNDO® different from laser removal?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Laser removal uses concentrated heat energy to shatter ink particles, which can cause burns, scarring, and hypopigmentation — especially on darker skin tones. UNDO® uses a natural chemical process to draw pigment out of the skin, avoiding heat damage entirely. It also works safely in delicate areas like around the eyes where laser is too risky.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Who developed UNDO®?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® was developed by veteran permanent makeup and tattoo artists who saw a need for a safer, more effective alternative to laser removal. The formula was refined over several years of testing with clients across diverse skin types and ink colors.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is UNDO® available in my country?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® is currently available across the USA and Canada through our certified technician network. We are actively expanding globally — <a href="contact.html">contact us</a> to inquire about availability in your region or to become a distributor.</div>
+        </div>
+      </div>
+
+      <!-- TREATMENT & SAFETY -->
+      <div class="faq-group reveal" id="treatment">
+        <div class="faq-group-title"><span class="label">02</span>Treatment & Safety</div>
+        <div class="faq-item">
+          <div class="faq-q">Is UNDO® safe for all skin types?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes. UNDO® is formulated to work safely across all skin types and tones. Unlike laser, it does not pose the same risk of hypopigmentation on deeper skin tones. It is also safe for use in delicate areas such as around the eyes.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Does UNDO® work on all ink colors?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes. UNDO® is effective on a wide range of ink and pigment colors. During your consultation, your certified technician will assess your specific ink type and color to set appropriate expectations for your treatment plan.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is the treatment painful?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Most clients describe UNDO® treatment as mildly uncomfortable — similar to getting the original tattoo. A topical numbing cream is applied before treatment to maximize your comfort. There is typically some redness and mild swelling in the days following treatment, which resolves with proper aftercare.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Who should NOT receive UNDO® treatment?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® is not suitable for individuals who are pregnant or nursing, diabetic, taking blood thinners or prescription acne medication (such as Accutane), undergoing chemotherapy, have major heart problems, or have active skin irritations near the treatment area. A full health consultation is conducted before any treatment.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What is the downtime after treatment?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Most clients experience 7–14 days of healing after each session, during which the treated area will scab and heal. Clients should avoid sun exposure, swimming, and any skincare products on the treated area during healing. Your technician will provide detailed aftercare instructions.</div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="faq-group reveal" id="results">
+        <div class="faq-group-title"><span class="label">03</span>Results & Expectations</div>
+        <div class="faq-item">
+          <div class="faq-q">How many sessions will I need?<span class="faq-icon">+</span></div>
+          <div class="faq-a">The number of sessions varies depending on the type of ink, the depth of application, the treatment area, and individual healing. Most clients see significant lightening in 2–4 sessions, with full removal typically achieved in 4–8 sessions. Permanent makeup often takes fewer sessions than body tattoos due to shallower ink placement.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How far apart are sessions?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Sessions are typically spaced 6–8 weeks apart to allow the skin to fully heal between treatments. Rushing sessions can compromise results and increase the risk of complications.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Will UNDO® completely remove my tattoo?<span class="faq-icon">+</span></div>
+          <div class="faq-a">In most cases, yes — complete removal is achievable. However, results vary based on ink type, color, depth, and individual skin factors. Some clients achieve complete removal while others achieve significant lightening that allows for coverup work. Your technician will give you realistic expectations during your consultation.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Will there be scarring?<span class="faq-icon">+</span></div>
+          <div class="faq-a">When performed by a certified UNDO® technician and proper aftercare is followed, scarring is extremely rare. UNDO® is specifically designed to minimize tissue trauma. Following your aftercare instructions carefully is critical to achieving the best outcome.</div>
+        </div>
+      </div>
+
+      <!-- TRAINING -->
+      <div class="faq-group reveal" id="training">
+        <div class="faq-group-title"><span class="label">04</span>Training & Certification</div>
+        <div class="faq-item">
+          <div class="faq-q">Who can train to become a certified UNDO® technician?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® training is open to licensed permanent makeup artists, tattoo artists, estheticians, and medical professionals. No prior removal experience is necessary. All students must hold an active professional license in their applicable field.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What training formats are available?<span class="faq-icon">+</span></div>
+          <div class="faq-a">We offer a 2-day in-person Masterclass at our Boca Raton, Florida location, and a self-paced Online Masterclass with lifetime access. Both programs lead to official UNDO® certification. See our <a href="training.html">Training page</a> for full details.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is the online certification as comprehensive as in-person?<span class="faq-icon">+</span></div>
+          <div class="faq-a">The online curriculum covers the same theoretical content as the in-person program. The key difference is that in-person training includes live model practice sessions and a starter kit. Many students choose the online format first and attend an in-person workshop later for hands-on practice.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Do I need to renew my certification?<span class="faq-icon">+</span></div>
+          <div class="faq-a">UNDO® certification does not expire, but we recommend attending refresher workshops when available as the formula and protocols are periodically updated. All certified technicians receive notifications about updates through our community platform.</div>
+        </div>
+      </div>
+
+      <!-- PRICING -->
+      <div class="faq-group reveal" id="pricing">
+        <div class="faq-group-title"><span class="label">05</span>Pricing & Booking</div>
+        <div class="faq-item">
+          <div class="faq-q">How much does a UNDO® treatment session cost?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Session pricing varies by technician and location. Most UNDO® practitioners charge between $150–$400 per session depending on the size of the treatment area and region. Use our Find a Technician tool to connect with a certified practitioner near you and ask about their pricing.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is there a consultation fee?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Consultation policies vary by technician. Some offer free initial consultations while others charge a small fee that is often credited toward your first treatment. Contact your chosen technician directly for their specific policy.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I book a training spot?<span class="faq-icon">+</span></div>
+          <div class="faq-a">You can enroll in online training directly through our website. For in-person training, please visit our <a href="contact.html">Contact page</a> to inquire about upcoming dates and availability. In-person courses have limited seats and fill quickly.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Are group discounts available for training?<span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes — studios enrolling 3 or more technicians are eligible for group discounts. Contact us directly for a custom group enrollment quote.</div>
+        </div>
+      </div>
+
+      <div class="no-results" id="noResults">No questions match your search. <a href="contact.html" style="color:var(--gold)">Ask us directly →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- STILL QUESTIONS -->
+<section class="still-questions">
+  <span class="label reveal">We're Here to Help</span>
+  <h2 class="reveal">Still Have Questions?</h2>
+  <p class="reveal">Our team is happy to answer any questions about treatment, training, or UNDO® products. Reach out and we'll get back to you within 24 hours.</p>
+  <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="contact.html" class="btn btn-solid btn-arrow">Contact Us</a>
+    <a href="training.html" class="btn">View Training Options</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">UN<span>DO</span>®</div><p class="footer-tagline">Non-laser pigment removal developed by veteran artists for safe, effective results across all skin types.</p></div>
+    <div class="footer-col"><h4>Navigation</h4><ul>
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+      <li><a href="training.html">Training</a></li><li><a href="gallery.html">Before & After</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Services</h4><ul>
+      <li><a href="#">Permanent Makeup</a></li><li><a href="#">Scalp Micropigmentation</a></li>
+      <li><a href="#">Body Tattoos</a></li><li><a href="#">Find a Technician</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="#">Boca Raton, FL 33431</a></li>
+      <li><a href="tel:5617695742">(561) 769-5742</a></li>
+      <li><a href="contact.html">Contact Form →</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNDO Removal®. All rights reserved.</span>
+    <span>Privacy Policy &nbsp;·&nbsp; Terms of Service</span>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Search
+  document.getElementById('faqSearch').addEventListener('input', function () {
+    const val = this.value.toLowerCase().trim();
+    let anyVisible = false;
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      const match = !val || text.includes(val);
+      item.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    document.querySelectorAll('.faq-group').forEach(g => {
+      const visible = [...g.querySelectorAll('.faq-item')].some(i => i.style.display !== 'none');
+      g.style.display = visible ? '' : 'none';
+    });
+    document.getElementById('noResults').style.display = anyVisible ? 'none' : 'block';
+  });
+</script>
+</body>
+</html>

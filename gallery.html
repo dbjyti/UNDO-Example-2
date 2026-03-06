@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Before & After Gallery — UNDO® Removal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero {
+      padding-top: var(--nav-h);
+      min-height: 50vh;
+      display: flex; align-items: flex-end;
+      background: radial-gradient(ellipse at 60% 30%, rgba(201,169,110,0.07) 0%, transparent 55%), linear-gradient(160deg, #0A0907 0%, #110F0C 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'GALLERY'; position: absolute; right: -1rem; bottom: -3rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 14rem; font-weight: 300;
+      color: rgba(201,169,110,0.04); pointer-events: none; letter-spacing: 0.05em;
+    }
+    .page-hero-inner { padding: 5rem 5vw; max-width: 1200px; width: 100%; margin: 0 auto; }
+    .page-hero h1 { font-size: clamp(3rem,7vw,5.5rem); font-weight: 300; margin-top: 0.8rem; }
+    .page-hero h1 em { color: var(--gold); }
+    .breadcrumb { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); } .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); margin: 0 0.5rem; }
+
+    /* ── FILTER TABS ── */
+    .filter-section { padding: 3rem 5vw 0; max-width: 1200px; margin: 0 auto; }
+    .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn {
+      font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 0.6rem 1.4rem; border: 1px solid var(--border);
+      color: var(--muted); background: transparent; cursor: pointer;
+      transition: all 0.25s; font-family: 'Jost', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--gold); color: var(--bg); }
+
+    /* ── GALLERY GRID ── */
+    .gallery-section { padding: 4rem 5vw 8rem; max-width: 1200px; margin: 0 auto; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      background: var(--bg2); border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .gallery-item:hover { border-color: rgba(201,169,110,0.4); transform: translateY(-4px); }
+    /* Simulated before/after using CSS gradients */
+    .ba-container {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    .ba-before, .ba-after {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-before { background: var(--bg3); }
+    .ba-after {
+      clip-path: inset(0 50% 0 0);
+      transition: clip-path 0.4s ease;
+    }
+    .gallery-item:hover .ba-after { clip-path: inset(0 0% 0 0); }
+    .ba-divider {
+      position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 2px; background: var(--gold);
+      transition: left 0.4s ease;
+      z-index: 3;
+    }
+    .gallery-item:hover .ba-divider { left: 100%; }
+    .ba-label {
+      position: absolute; bottom: 0.7rem;
+      font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      background: rgba(10,9,7,0.8); color: var(--cream-dk);
+      padding: 0.2rem 0.5rem;
+      z-index: 4;
+    }
+    .ba-label.before-lbl { left: 0.7rem; }
+    .ba-label.after-lbl { right: 0.7rem; color: var(--gold); }
+    /* Color-coded placeholders per category */
+    .cat-pmu .ba-before { background: linear-gradient(135deg, #2a1f1a 0%, #1a1410 100%); }
+    .cat-pmu .ba-after { background: linear-gradient(135deg, #1a1714 0%, #110F0C 100%); }
+    .cat-smp .ba-before { background: linear-gradient(135deg, #1e1e20 0%, #141416 100%); }
+    .cat-smp .ba-after { background: linear-gradient(135deg, #161617 0%, #0d0d0e 100%); }
+    .cat-body .ba-before { background: linear-gradient(135deg, #1f1a20 0%, #14101a 100%); }
+    .cat-body .ba-after { background: linear-gradient(135deg, #17141a 0%, #100d12 100%); }
+    /* Pattern overlays */
+    .ba-before::before, .ba-after::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0.6;
+    }
+    .cat-pmu .ba-before::before {
+      background: repeating-linear-gradient(45deg, rgba(201,169,110,0.15) 0, rgba(201,169,110,0.15) 2px, transparent 2px, transparent 12px);
+    }
+    .ba-visual-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: rgba(201,169,110,0.4);
+      z-index: 2; position: relative;
+    }
+    .ba-visual-fade {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: rgba(201,169,110,0.15);
+      z-index: 2; position: relative;
+    }
+    .gallery-info { padding: 1.3rem 1.5rem; }
+    .gallery-info h4 { font-family: 'Cormorant Garamond',serif; font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .gallery-info .meta {
+      font-size: 0.72rem; color: var(--muted);
+      display: flex; gap: 1rem;
+    }
+    .meta-tag {
+      display: inline-block; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      border: 1px solid var(--border); padding: 0.15rem 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ── NOTE BANNER ── */
+    .note-banner {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 1.4rem 2rem; margin-bottom: 3rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .note-banner p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .note-icon { color: var(--gold); font-size: 1rem; flex-shrink: 0; padding-top: 0.15rem; }
+
+    /* ── CTA ── */
+    .gallery-cta { background: var(--bg2); padding: 6rem 5vw; text-align: center; }
+    .gallery-cta h2 { font-size: clamp(2rem,4vw,3rem); }
+    .gallery-cta p { font-size: 0.95rem; color: var(--cream-dk); margin: 1rem auto 2.5rem; max-width: 500px; }
+
+    @media (max-width: 900px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">UN<span>DO</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="training.html">Training</a></li>
+    <li><a href="gallery.html" class="active">Before & After</a></li>
+    <li><a href="faq.html">FAQs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="training.html">Training</a>
+  <a href="gallery.html">Before & After</a><a href="faq.html">FAQs</a><a href="contact.html">Contact</a>
+</div>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb animate-fadeup"><a href="index.html">Home</a><span>›</span>Before & After</div>
+    <span class="label animate-fadeup delay-1">Real Results</span>
+    <h1 class="animate-fadeup delay-2">Before &amp; <em>After</em></h1>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<div class="filter-section reveal">
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all">All Results</button>
+    <button class="filter-btn" data-filter="pmu">Permanent Makeup</button>
+    <button class="filter-btn" data-filter="smp">Scalp Micropigmentation</button>
+    <button class="filter-btn" data-filter="body">Body Tattoos</button>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="note-banner reveal">
+    <div class="note-icon">ℹ</div>
+    <p><strong style="color:var(--cream);">Hover over each card to preview the after result.</strong> All photos are from real UNDO® clients treated by certified technicians. Individual results may vary based on ink type, skin tone, and number of sessions.</p>
+  </div>
+
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- PMU items -->
+    <div class="gallery-item cat-pmu reveal" data-cat="pmu">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Microbladed Brows</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Faded</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Microbladed Brows — 3 Sessions</h4>
+        <div class="meta"><span>Boca Raton, FL</span><span>6 weeks apart</span></div>
+        <div><span class="meta-tag">Permanent Makeup</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-pmu reveal delay-1" data-cat="pmu">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Lip Blush</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Removed</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Lip Blush — 4 Sessions</h4>
+        <div class="meta"><span>Miami, FL</span><span>8 weeks apart</span></div>
+        <div><span class="meta-tag">Permanent Makeup</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-pmu reveal delay-2" data-cat="pmu">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Eyeliner Tattoo</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Lightened</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Eyeliner Tattoo — 2 Sessions</h4>
+        <div class="meta"><span>New York, NY</span><span>6 weeks apart</span></div>
+        <div><span class="meta-tag">Permanent Makeup</span></div>
+      </div>
+    </div>
+
+    <!-- SMP items -->
+    <div class="gallery-item cat-smp reveal" data-cat="smp">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">SMP — Crown Area</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Cleared</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Scalp Micropigmentation — 5 Sessions</h4>
+        <div class="meta"><span>Toronto, ON</span><span>4 weeks apart</span></div>
+        <div><span class="meta-tag">Scalp Micropigmentation</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-smp reveal delay-1" data-cat="smp">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">SMP — Hairline</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Faded</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Hairline SMP — 3 Sessions</h4>
+        <div class="meta"><span>Vancouver, BC</span><span>6 weeks apart</span></div>
+        <div><span class="meta-tag">Scalp Micropigmentation</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-smp reveal delay-2" data-cat="smp">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Full Scalp SMP</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Removed</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Full Scalp SMP — 6 Sessions</h4>
+        <div class="meta"><span>Chicago, IL</span><span>5 weeks apart</span></div>
+        <div><span class="meta-tag">Scalp Micropigmentation</span></div>
+      </div>
+    </div>
+
+    <!-- Body tattoo items -->
+    <div class="gallery-item cat-body reveal" data-cat="body">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Wrist Tattoo</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Lightened</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Small Wrist Tattoo — 4 Sessions</h4>
+        <div class="meta"><span>Los Angeles, CA</span><span>6 weeks apart</span></div>
+        <div><span class="meta-tag">Body Tattoo</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-body reveal delay-1" data-cat="body">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Ankle Tattoo</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Removed</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Ankle Tattoo — 5 Sessions</h4>
+        <div class="meta"><span>Dallas, TX</span><span>7 weeks apart</span></div>
+        <div><span class="meta-tag">Body Tattoo</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-item cat-body reveal delay-2" data-cat="body">
+      <div class="ba-container">
+        <div class="ba-before"><div class="ba-visual-text">Neck Tattoo</div></div>
+        <div class="ba-after"><div class="ba-visual-fade">Faded</div></div>
+        <div class="ba-divider"></div>
+        <span class="ba-label before-lbl">Before</span>
+        <span class="ba-label after-lbl">After</span>
+      </div>
+      <div class="gallery-info">
+        <h4>Small Neck Tattoo — 3 Sessions</h4>
+        <div class="meta"><span>Atlanta, GA</span><span>6 weeks apart</span></div>
+        <div><span class="meta-tag">Body Tattoo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="gallery-cta">
+  <span class="label reveal">Ready to Start?</span>
+  <h2 class="reveal">Your Results Are Waiting</h2>
+  <p class="reveal">Book a consultation with a certified UNDO® technician near you, or take the first step toward certification yourself.</p>
+  <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="contact.html" class="btn btn-solid btn-arrow">Book a Consultation</a>
+    <a href="training.html" class="btn">Become Certified</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">UN<span>DO</span>®</div><p class="footer-tagline">Non-laser pigment removal for permanent makeup, scalp micropigmentation, and body tattoos.</p></div>
+    <div class="footer-col"><h4>Navigation</h4><ul>
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+      <li><a href="training.html">Training</a></li><li><a href="gallery.html">Before & After</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Services</h4><ul>
+      <li><a href="#">Permanent Makeup</a></li><li><a href="#">Scalp Micropigmentation</a></li>
+      <li><a href="#">Body Tattoos</a></li><li><a href="#">Find a Technician</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="#">Boca Raton, FL 33431</a></li>
+      <li><a href="tel:5617695742">(561) 769-5742</a></li>
+      <li><a href="contact.html">Contact Form →</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNDO Removal®. All rights reserved.</span>
+    <span>Privacy Policy &nbsp;·&nbsp; Terms of Service</span>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

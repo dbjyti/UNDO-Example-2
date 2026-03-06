@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNDO Removal — Non-Laser Tattoo Removal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(201,169,110,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 50%),
+        linear-gradient(160deg, #0A0907 0%, #110F0C 50%, #0D0B09 100%);
+    }
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-lines::before, .hero-lines::after {
+      content: '';
+      position: absolute;
+      border: 1px solid rgba(201,169,110,0.08);
+      border-radius: 50%;
+    }
+    .hero-lines::before {
+      width: 700px; height: 700px;
+      right: -140px; top: -140px;
+    }
+    .hero-lines::after {
+      width: 480px; height: 480px;
+      right: 60px; top: 20px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      padding: 0 5vw;
+    }
+    .hero-content .label { margin-bottom: 1.2rem; display: block; }
+    .hero-h1 {
+      font-size: clamp(3.4rem, 8vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.8rem;
+    }
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--cream-dk);
+      max-width: 520px;
+      margin-bottom: 2.8rem;
+      line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 3rem;
+      left: 5vw;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero-scroll-line {
+      width: 40px; height: 1px;
+      background: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      left: -100%; top: 0;
+      width: 100%; height: 100%;
+      background: var(--gold);
+      animation: slideRight 2s ease-in-out infinite;
+    }
+    @keyframes slideRight {
+      0% { left: -100%; }
+      50% { left: 0%; }
+      100% { left: 100%; }
+    }
+    .hero-stat {
+      position: absolute;
+      right: 5vw;
+      bottom: 6rem;
+      text-align: right;
+    }
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.35;
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      background: var(--gold);
+      padding: 0.9rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-flex;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-inner span {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bg);
+      padding: 0 2.5rem;
+    }
+    .marquee-inner .dot { opacity: 0.4; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── INTRO ── */
+    .intro {
+      padding: 8rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .intro-text h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-top: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .intro-text p {
+      font-size: 0.95rem;
+      color: var(--cream-dk);
+      margin-bottom: 1.2rem;
+    }
+    .intro-visual {
+      position: relative;
+    }
+    .intro-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      position: relative;
+    }
+    .intro-box::before {
+      content: '';
+      position: absolute;
+      top: -12px; left: -12px;
+      right: 12px; bottom: 12px;
+      border: 1px solid rgba(201,169,110,0.1);
+      pointer-events: none;
+    }
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--bg2);
+      padding: 8rem 5vw;
+      position: relative;
+      overflow: hidden;
+    }
+    .how-section::before {
+      content: 'PROCESS';
+      position: absolute;
+      right: 5vw; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.04);
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+    .how-step {
+      background: var(--bg3);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: background var(--transition);
+    }
+    .how-step:hover { background: rgba(26,23,20,0.95); }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.18);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .step-line {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px; width: 0;
+      background: var(--gold);
+      transition: width 0.5s ease;
+    }
+    .how-step:hover .step-line { width: 100%; }
+
+    /* ── SERVICES ── */
+    .services-section { padding: 8rem 5vw; max-width: 1200px; margin: 0 auto; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .service-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2.8rem 2.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,169,110,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .service-card:hover { border-color: rgba(201,169,110,0.4); transform: translateY(-6px); }
+    .service-card:hover::after { opacity: 1; }
+    .service-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.8rem;
+      font-size: 1.4rem;
+    }
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .service-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .service-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+    .service-link:hover { gap: 0.9rem; }
+
+    /* ── WHY CHOOSE ── */
+    .why-section {
+      background: var(--bg2);
+      padding: 8rem 5vw;
+    }
+    .why-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .why-text h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-top: 0.8rem; }
+    .why-text p { font-size: 0.95rem; color: var(--cream-dk); margin-top: 1.5rem; line-height: 1.8; }
+    .why-list { margin-top: 4rem; }
+    .why-item {
+      display: flex;
+      gap: 1.4rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .why-item:first-child { border-top: 1px solid var(--border); }
+    .why-item-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      opacity: 0.6;
+      flex-shrink: 0;
+      padding-top: 0.1rem;
+    }
+    .why-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+    .why-item p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── TESTIMONIAL STRIP ── */
+    .testimonial-strip {
+      padding: 8rem 5vw;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+      position: relative;
+    }
+    .testimonial-quote::before {
+      content: '"';
+      font-size: 8rem;
+      color: rgba(201,169,110,0.1);
+      position: absolute;
+      top: -2.5rem; left: -2rem;
+      line-height: 1;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .testimonial-author {
+      margin-top: 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .testimonial-stars { color: var(--gold); margin-top: 1.5rem; letter-spacing: 0.3rem; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--gold-dk) 0%, var(--gold) 50%, var(--gold-lt) 100%);
+      padding: 6rem 5vw;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230A0907' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cta-banner h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--bg);
+      position: relative;
+    }
+    .cta-banner p {
+      font-size: 1rem;
+      color: rgba(10,9,7,0.7);
+      margin: 1rem 0 2.5rem;
+      position: relative;
+    }
+    .cta-banner .btn {
+      border-color: var(--bg);
+      color: var(--bg);
+      position: relative;
+    }
+    .cta-banner .btn:hover { background: var(--bg); color: var(--gold); }
+
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; gap: 3rem; }
+      .how-grid { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    @media (max-width: 600px) {
+      .how-grid { grid-template-columns: 1fr; }
+      .hero-stat { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">UN<span>DO</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="training.html">Training</a></li>
+    <li><a href="gallery.html">Before & After</a></li>
+    <li><a href="faq.html">FAQs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="training.html">Training</a>
+  <a href="gallery.html">Before & After</a>
+  <a href="faq.html">FAQs</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+
+  <div class="hero-content">
+    <span class="label animate-fadeup">Non-Laser Tattoo Removal</span>
+    <h1 class="hero-h1 animate-fadeup delay-1">
+      Remove.<br><em>Restore.</em><br>Begin Again.
+    </h1>
+    <p class="hero-sub animate-fadeup delay-2">
+      UNDO® is a patent-pending, multi-step non-laser pigment removal system — safe, effective, and formulated with the highest quality natural ingredients.
+    </p>
+    <div class="hero-actions animate-fadeup delay-3">
+      <a href="training.html" class="btn btn-solid btn-arrow">Explore Training</a>
+      <a href="about.html" class="btn">Learn More</a>
+    </div>
+  </div>
+
+  <div class="hero-stat">
+    <div class="hero-stat-num">99%</div>
+    <div class="hero-stat-label">Client Satisfaction</div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>Permanent Makeup Removal</span><span class="dot">✦</span>
+    <span>Scalp Micropigmentation</span><span class="dot">✦</span>
+    <span>Body Tattoo Removal</span><span class="dot">✦</span>
+    <span>Non-Laser Technology</span><span class="dot">✦</span>
+    <span>Professional Training</span><span class="dot">✦</span>
+    <span>Natural Ingredients</span><span class="dot">✦</span>
+    <span>All Skin Types</span><span class="dot">✦</span>
+    <!-- repeat for seamless loop -->
+    <span>Permanent Makeup Removal</span><span class="dot">✦</span>
+    <span>Scalp Micropigmentation</span><span class="dot">✦</span>
+    <span>Body Tattoo Removal</span><span class="dot">✦</span>
+    <span>Non-Laser Technology</span><span class="dot">✦</span>
+    <span>Professional Training</span><span class="dot">✦</span>
+    <span>Natural Ingredients</span><span class="dot">✦</span>
+    <span>All Skin Types</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ── INTRO ── -->
+<div class="intro reveal">
+  <div class="intro-text">
+    <span class="label">What Is UNDO?</span>
+    <h2>A Safer Path to Clear Skin</h2>
+    <div class="divider"></div>
+    <p>UNDO® was developed and tested by veteran permanent makeup and tattoo artists who recognized the need for a safer removal option for their clients. Where lasers can cause burns, scarring, and discomfort, UNDO® offers a gentle, multi-step alternative.</p>
+    <p>Formulated with premium natural ingredients, UNDO® minimizes the number of sessions needed and works on all skin types — even in delicate areas like the eyes.</p>
+    <a href="about.html" class="btn btn-arrow" style="margin-top:1rem;">Discover Our Story</a>
+  </div>
+  <div class="intro-visual">
+    <div class="intro-box">
+      <div class="stat-row">
+        <div class="stat-item">
+          <div class="stat-num">All</div>
+          <div class="stat-desc">Skin Types</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3+</div>
+          <div class="stat-desc">Treatment Types</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0</div>
+          <div class="stat-desc">Lasers Used</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">★5</div>
+          <div class="stat-desc">Rated Training</div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border);">
+        <div class="label" style="margin-bottom:0.6rem;">Patent Pending Formula</div>
+        <p style="font-size:0.82rem; color:var(--muted); line-height:1.7;">UNDO® uses a proprietary blend of natural lightening agents that work with the skin — not against it.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">The Process</span>
+      <h2>How UNDO® Works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Consultation</div>
+        <p class="step-desc">Your certified UNDO® technician evaluates your skin type, ink color, and treatment area to create a personalized removal plan.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="how-step reveal delay-1">
+        <div class="step-num">02</div>
+        <div class="step-title">Preparation</div>
+        <p class="step-desc">The skin is gently cleaned and prepped. A topical numbing agent may be applied to maximize your comfort during the procedure.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="how-step reveal delay-2">
+        <div class="step-num">03</div>
+        <div class="step-title">Application</div>
+        <p class="step-desc">The UNDO® solution is applied using a professional device, working to draw pigment from the skin with precision.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="how-step reveal delay-3">
+        <div class="step-num">04</div>
+        <div class="step-title">Aftercare</div>
+        <p class="step-desc">Detailed aftercare instructions are provided. Most clients see visible lightening after the first session with full removal typically in 2–6 sessions.</p>
+        <div class="step-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services-section">
+  <div class="section-header reveal">
+    <span class="label">What We Treat</span>
+    <h2>UNDO® Removal Services</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">✦</div>
+      <h3>Permanent Makeup</h3>
+      <p>Microbladed brows, lip blush, eyeliner, and other cosmetic tattoos — UNDO® safely lightens and removes unwanted permanent makeup with precision.</p>
+      <a href="about.html" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card reveal delay-1">
+      <div class="service-icon">◈</div>
+      <h3>Scalp Micropigmentation</h3>
+      <p>Whether it's faded, misplaced, or simply unwanted, UNDO® effectively removes SMP pigment — all without the risks of laser treatment.</p>
+      <a href="about.html" class="service-link">Learn more →</a>
+    </div>
+    <div class="service-card reveal delay-2">
+      <div class="service-icon">◇</div>
+      <h3>Body Tattoos</h3>
+      <p>Small to medium sized body tattoos can be effectively treated with UNDO®. Works on all ink colors across all skin types.</p>
+      <a href="about.html" class="service-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE ── -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="why-text reveal">
+      <span class="label">Why UNDO?</span>
+      <h2>The Smarter Choice in Tattoo Removal</h2>
+      <p>Laser removal has long been the default — but it comes with burns, scarring, high costs, and inconsistency across skin tones. UNDO® was built from the ground up to be better.</p>
+      <a href="about.html" class="btn btn-arrow" style="margin-top:2rem;">Compare Laser vs Non-Laser</a>
+    </div>
+    <div class="why-list reveal delay-1">
+      <div class="why-item">
+        <div class="why-item-num">01</div>
+        <div>
+          <h4>Safe on All Skin Tones</h4>
+          <p>Unlike lasers which can cause hypopigmentation on darker skin tones, UNDO® is formulated for universal use.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-num">02</div>
+        <div>
+          <h4>Natural Ingredients</h4>
+          <p>Our patent-pending formula uses high-quality natural components — no harsh chemicals, no damaging heat energy.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-num">03</div>
+        <div>
+          <h4>Safe in Delicate Areas</h4>
+          <p>UNDO® can be used safely around the eyes and other sensitive areas where laser is simply too risky.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-num">04</div>
+        <div>
+          <h4>Fewer Sessions Needed</h4>
+          <p>Our formula is optimized to minimize the number of sessions required, saving you time and money.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIAL ── -->
+<section class="testimonial-strip">
+  <div class="testimonial-stars reveal">★★★★★</div>
+  <blockquote class="testimonial-quote reveal delay-1">
+    I had microbladed brows that I deeply regretted. After three UNDO® sessions, they were almost completely gone. The process was so much gentler than I expected.
+  </blockquote>
+  <div class="testimonial-author reveal delay-2">— Sarah M., Verified Client</div>
+  <div style="margin-top:2.5rem;" class="reveal delay-3">
+    <a href="gallery.html" class="btn">View Before & After Gallery</a>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ── -->
+<section class="cta-banner">
+  <h2>Ready to Start Your<br><em>Removal Journey?</em></h2>
+  <p>Book a consultation or explore our professional training programs.</p>
+  <a href="contact.html" class="btn btn-arrow">Get In Touch</a>
+  &nbsp;&nbsp;
+  <a href="training.html" class="btn" style="border-color:var(--bg); color:var(--bg); background:rgba(10,9,7,0.1);">View Training Options</a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">UN<span>DO</span>®</div>
+      <p class="footer-tagline">A patent-pending non-laser pigment removal system developed by veteran permanent makeup and tattoo artists for safe, effective results.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About UNDO®</a></li>
+        <li><a href="training.html">Training</a></li>
+        <li><a href="gallery.html">Before & After</a></li>
+        <li><a href="faq.html">FAQs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Permanent Makeup Removal</a></li>
+        <li><a href="#">Scalp Micropigmentation</a></li>
+        <li><a href="#">Body Tattoo Removal</a></li>
+        <li><a href="#">Laser vs Non-Laser</a></li>
+        <li><a href="#">Find a Technician</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">2800 N Federal Hwy</a></li>
+        <li><a href="#">Boca Raton, FL 33431</a></li>
+        <li><a href="tel:5617695742">(561) 769-5742</a></li>
+        <li><a href="mailto:info@undoremoval.com">info@undoremoval.com</a></li>
+        <li><a href="contact.html">Contact Form →</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNDO Removal®. All rights reserved.</span>
+    <span>Privacy Policy &nbsp;·&nbsp; Terms of Service &nbsp;·&nbsp; Sitemap</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.add('open');
+  });
+  document.getElementById('mobileClose').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.remove('open');
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training — UNDO® Non-Laser Tattoo Removal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero {
+      padding-top: var(--nav-h);
+      min-height: 52vh;
+      display: flex;
+      align-items: flex-end;
+      background: radial-gradient(ellipse at 30% 60%, rgba(201,169,110,0.07) 0%, transparent 55%), linear-gradient(160deg, #0A0907 0%, #110F0C 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'TRAIN';
+      position: absolute; right: -1rem; bottom: -3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16rem; font-weight: 300;
+      color: rgba(201,169,110,0.04); pointer-events: none;
+    }
+    .page-hero-inner { padding: 5rem 5vw; max-width: 1200px; width: 100%; margin: 0 auto; }
+    .page-hero h1 { font-size: clamp(3rem,7vw,5.5rem); font-weight: 300; margin-top: 0.8rem; }
+    .page-hero h1 em { color: var(--gold); }
+    .breadcrumb { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); margin: 0 0.5rem; }
+
+    /* ── TRAINING CARDS ── */
+    .training-section { padding: 8rem 5vw; max-width: 1200px; margin: 0 auto; }
+    .training-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+    .training-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .training-card:hover { border-color: rgba(201,169,110,0.45); transform: translateY(-4px); }
+    .training-card.featured {
+      border-color: rgba(201,169,110,0.35);
+      background: linear-gradient(135deg, var(--bg2) 0%, rgba(201,169,110,0.04) 100%);
+    }
+    .training-badge {
+      display: inline-block;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--gold); color: var(--bg);
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .training-card h3 { font-size: 1.9rem; margin-bottom: 0.6rem; }
+    .training-card .price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      color: var(--gold);
+      margin: 1.5rem 0;
+    }
+    .training-card .price small { font-size: 1rem; color: var(--muted); }
+    .training-card p { font-size: 0.88rem; color: var(--cream-dk); line-height: 1.75; margin-bottom: 1.5rem; }
+    .training-features { margin: 1.5rem 0 2rem; }
+    .training-features li {
+      display: flex; gap: 0.7rem;
+      font-size: 0.83rem; color: var(--cream-dk);
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(201,169,110,0.08);
+    }
+    .training-features li::before { content: '✓'; color: var(--gold); flex-shrink: 0; }
+
+    /* ── CURRICULUM ── */
+    .curriculum-section { background: var(--bg2); padding: 8rem 5vw; }
+    .curriculum-inner { max-width: 1200px; margin: 0 auto; }
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 4rem;
+      align-items: start;
+    }
+    .module {
+      display: flex; gap: 1.4rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .module:first-child { border-top: 1px solid var(--border); }
+    .module-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; color: var(--gold); opacity: 0.5;
+      flex-shrink: 0; line-height: 1.2;
+    }
+    .module h4 { font-family: 'Jost',sans-serif; font-size: 0.88rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .module p { font-size: 0.8rem; color: var(--muted); line-height: 1.65; }
+    .curriculum-aside {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .curriculum-aside h3 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+    .aside-item { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
+    .aside-icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1.4; }
+    .aside-item h5 { font-family: 'Jost',sans-serif; font-size: 0.82rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .aside-item p { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-section { padding: 8rem 5vw; max-width: 1200px; margin: 0 auto; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 4rem; }
+    .testimonial-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      padding: 2rem;
+    }
+    .stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 0.2rem; margin-bottom: 1rem; }
+    .testimonial-card blockquote { font-family: 'Cormorant Garamond',serif; font-size: 1.05rem; font-style: italic; font-weight: 300; color: var(--cream); line-height: 1.6; margin-bottom: 1.2rem; }
+    .testimonial-card cite { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-style: normal; }
+
+    /* ── FAQ MINI ── */
+    .faq-mini-section { background: var(--bg2); padding: 8rem 5vw; }
+    .faq-mini-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; align-items: start; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 0; cursor: pointer;
+      font-size: 0.9rem; font-weight: 400; color: var(--cream);
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q .faq-icon { font-size: 1.2rem; color: var(--gold); transition: transform 0.3s; flex-shrink: 0; }
+    .faq-a { font-size: 0.85rem; color: var(--muted); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.2rem; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    @media (max-width: 900px) {
+      .training-grid { grid-template-columns: 1fr; }
+      .curriculum-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .faq-mini-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">UN<span>DO</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="training.html" class="active">Training</a></li>
+    <li><a href="gallery.html">Before & After</a></li>
+    <li><a href="faq.html">FAQs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="training.html">Training</a>
+  <a href="gallery.html">Before & After</a><a href="faq.html">FAQs</a><a href="contact.html">Contact</a>
+</div>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb animate-fadeup"><a href="index.html">Home</a><span>›</span>Training</div>
+    <span class="label animate-fadeup delay-1">Certification Programs</span>
+    <h1 class="animate-fadeup delay-2">UNDO® <em>Training</em></h1>
+  </div>
+</section>
+
+<!-- TRAINING OPTIONS -->
+<section class="training-section">
+  <div class="section-header reveal">
+    <span class="label">Choose Your Path</span>
+    <h2>Professional Certification Programs</h2>
+  </div>
+  <p class="reveal" style="font-size:0.95rem;color:var(--cream-dk);max-width:600px;margin-top:1rem;">UNDO® training is available both in-person and online. All certified technicians are equipped to offer their clients a safe, effective, and professional removal experience.</p>
+  <div class="training-grid">
+    <div class="training-card featured reveal">
+      <div class="training-badge">Most Popular</div>
+      <h3>In-Person Masterclass</h3>
+      <div class="price">$1,499 <small>/ person</small></div>
+      <p>A comprehensive, hands-on training experience held at our Boca Raton location. Learn directly from master technicians with live model practice included.</p>
+      <ul class="training-features">
+        <li>2-day intensive training</li>
+        <li>Live model practice sessions</li>
+        <li>Full UNDO® starter kit included</li>
+        <li>Official UNDO® certification</li>
+        <li>Ongoing support & community access</li>
+        <li>Marketing materials provided</li>
+      </ul>
+      <a href="contact.html" class="btn btn-solid btn-arrow">Enroll Now</a>
+    </div>
+    <div class="training-card reveal delay-1">
+      <div class="training-badge">Flexible Learning</div>
+      <h3>Online Masterclass</h3>
+      <div class="price">$799 <small>/ person</small></div>
+      <p>Our complete online certification program — study at your own pace with lifetime access to all video modules, resources, and community support.</p>
+      <ul class="training-features">
+        <li>Lifetime access to course content</li>
+        <li>14 in-depth video modules</li>
+        <li>Downloadable resource library</li>
+        <li>Official UNDO® digital certificate</li>
+        <li>Private student community access</li>
+        <li>Quarterly live Q&A sessions</li>
+      </ul>
+      <a href="contact.html" class="btn btn-arrow">Enroll Online</a>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum-section">
+  <div class="curriculum-inner">
+    <div class="section-header reveal">
+      <span class="label">What You'll Learn</span>
+      <h2>Training Curriculum</h2>
+    </div>
+    <div class="curriculum-grid">
+      <div>
+        <div class="module reveal">
+          <div class="module-num">01</div>
+          <div>
+            <h4>Skin Anatomy & Physiology</h4>
+            <p>Understanding skin layers, pigment placement, and how ink behaves in different skin types.</p>
+          </div>
+        </div>
+        <div class="module reveal delay-1">
+          <div class="module-num">02</div>
+          <div>
+            <h4>The UNDO® Formula</h4>
+            <p>Deep dive into the ingredients, mechanism of action, and why UNDO® is effective where other methods fail.</p>
+          </div>
+        </div>
+        <div class="module reveal delay-2">
+          <div class="module-num">03</div>
+          <div>
+            <h4>Client Assessment & Consultation</h4>
+            <p>How to evaluate candidates, identify contraindications, and set realistic expectations.</p>
+          </div>
+        </div>
+        <div class="module reveal">
+          <div class="module-num">04</div>
+          <div>
+            <h4>Step-by-Step Treatment Protocol</h4>
+            <p>The complete UNDO® multi-step process from preparation through application and seal.</p>
+          </div>
+        </div>
+        <div class="module reveal delay-1">
+          <div class="module-num">05</div>
+          <div>
+            <h4>Aftercare & Healing</h4>
+            <p>Evidence-based aftercare protocols to optimize healing and maximize pigment removal per session.</p>
+          </div>
+        </div>
+        <div class="module reveal delay-2">
+          <div class="module-num">06</div>
+          <div>
+            <h4>Business Building & Marketing</h4>
+            <p>How to position your UNDO® services, price your work, and market to ideal clients.</p>
+          </div>
+        </div>
+      </div>
+      <div class="curriculum-aside reveal">
+        <h3>Training Highlights</h3>
+        <div class="aside-item">
+          <div class="aside-icon">🎓</div>
+          <div><h5>Internationally Recognized Certification</h5><p>Your UNDO® certificate is recognized by studios across the USA and Canada.</p></div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-icon">🧪</div>
+          <div><h5>Science-Based Curriculum</h5><p>Our curriculum is built on dermatological research, not just industry tradition.</p></div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-icon">📦</div>
+          <div><h5>Starter Kit Included (In-Person)</h5><p>Walk away from in-person training ready to perform treatments immediately.</p></div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-icon">💬</div>
+          <div><h5>Ongoing Mentor Support</h5><p>Access our private community and regular live sessions with master trainers.</p></div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-icon">📈</div>
+          <div><h5>Business Tools</h5><p>Consent forms, client record templates, pricing guides, and marketing assets all included.</p></div>
+        </div>
+        <div style="margin-top:2rem; padding-top:2rem; border-top:1px solid var(--border);">
+          <div class="label" style="margin-bottom:0.5rem;">Prerequisites</div>
+          <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;">UNDO® training is available to licensed permanent makeup artists, tattoo artists, estheticians, and medical professionals. Prior removal experience is not required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-header reveal">
+    <span class="label">Graduate Reviews</span>
+    <h2>What Our Students Say</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="stars">★★★★★</div>
+      <blockquote>The in-person training completely transformed my business. I added removal services within a week of getting certified and haven't looked back.</blockquote>
+      <cite>— Jessica T., PMU Artist, Miami FL</cite>
+    </div>
+    <div class="testimonial-card reveal delay-1">
+      <div class="stars">★★★★★</div>
+      <blockquote>As someone who took the online course, I was worried it wouldn't be as thorough. I was completely wrong — the curriculum was incredibly detailed.</blockquote>
+      <cite>— Marcus D., Tattoo Artist, Toronto ON</cite>
+    </div>
+    <div class="testimonial-card reveal delay-2">
+      <div class="stars">★★★★★</div>
+      <blockquote>The support after training is what sets UNDO® apart. The community and live Q&A sessions have been invaluable as I built my removal practice.</blockquote>
+      <cite>— Priya M., Esthetician, New York NY</cite>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ MINI -->
+<section class="faq-mini-section">
+  <div class="faq-mini-inner">
+    <div class="reveal">
+      <span class="label">Have Questions?</span>
+      <h2>Training FAQs</h2>
+      <div class="divider"></div>
+      <p style="font-size:0.9rem;color:var(--cream-dk);line-height:1.8;margin-bottom:2rem;">Can't find what you're looking for? Reach out and we'll answer any questions before you enroll.</p>
+      <a href="faq.html" class="btn btn-arrow">View All FAQs</a>
+    </div>
+    <div class="reveal delay-1">
+      <div class="faq-item">
+        <div class="faq-q">Do I need prior experience to enroll?<span class="faq-icon">+</span></div>
+        <div class="faq-a">UNDO® training is open to licensed professionals including permanent makeup artists, tattoo artists, estheticians, and medical professionals. No prior removal experience is required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does certification take?<span class="faq-icon">+</span></div>
+        <div class="faq-a">In-person training is a 2-day intensive. The online masterclass is self-paced — most students complete it within 2–4 weeks while working their existing schedule.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is the certification recognized internationally?<span class="faq-icon">+</span></div>
+        <div class="faq-a">UNDO® certification is currently recognized across the USA and Canada. We are actively working to expand our recognition network globally.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I purchase UNDO® products after training?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes — certified UNDO® technicians have access to our professional product store at certified practitioner pricing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are there group or studio discounts?<span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes, we offer group enrollment discounts for studios enrolling 3 or more technicians. Contact us for a custom quote.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">UN<span>DO</span>®</div>
+      <p class="footer-tagline">A patent-pending non-laser pigment removal system developed by veteran artists for safe, effective results.</p>
+    </div>
+    <div class="footer-col"><h4>Navigation</h4><ul>
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+      <li><a href="training.html">Training</a></li><li><a href="gallery.html">Before & After</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Training</h4><ul>
+      <li><a href="#">In-Person Masterclass</a></li><li><a href="#">Online Masterclass</a></li>
+      <li><a href="#">Group Enrollment</a></li><li><a href="#">Become a Distributor</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="#">Boca Raton, FL 33431</a></li>
+      <li><a href="tel:5617695742">(561) 769-5742</a></li>
+      <li><a href="contact.html">Contact Form →</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNDO Removal®. All rights reserved.</span>
+    <span>Privacy Policy &nbsp;·&nbsp; Terms of Service</span>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

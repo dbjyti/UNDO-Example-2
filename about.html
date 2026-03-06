@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About UNDO® — Non-Laser Tattoo Removal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding-top: var(--nav-h);
+      min-height: 52vh;
+      display: flex;
+      align-items: flex-end;
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(201,169,110,0.06) 0%, transparent 55%),
+        linear-gradient(160deg, #0A0907 0%, #110F0C 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'ABOUT';
+      position: absolute;
+      right: -2rem;
+      bottom: -3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16rem;
+      font-weight: 300;
+      color: rgba(201,169,110,0.04);
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .page-hero-inner {
+      padding: 5rem 5vw;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .page-hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-top: 0.8rem;
+    }
+    .page-hero h1 em { color: var(--gold); }
+    .breadcrumb {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); margin: 0 0.5rem; }
+
+    /* ── MISSION ── */
+    .mission-section {
+      padding: 8rem 5vw;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .mission-text h2 { font-size: clamp(2rem,4vw,3rem); margin-top:0.7rem; }
+    .mission-text p { font-size: 0.95rem; color: var(--cream-dk); margin-top:1.2rem; line-height:1.85; }
+    .pull-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1.4;
+      border-left: 2px solid var(--gold);
+      padding-left: 2rem;
+      margin: 3rem 0;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .value-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+    }
+    .value-box .label { margin-bottom: 0.6rem; display: block; }
+    .value-box p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── TIMELINE ── */
+    .timeline-section {
+      background: var(--bg2);
+      padding: 8rem 5vw;
+    }
+    .timeline-inner { max-width: 1200px; margin: 0 auto; }
+    .timeline {
+      margin-top: 4rem;
+      position: relative;
+      padding-left: 3rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .tl-item {
+      position: relative;
+      padding-bottom: 3.5rem;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute;
+      left: -3rem;
+      top: 0.25rem;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateX(calc(-50% + 0.5px));
+    }
+    .tl-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+    .tl-item h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .tl-item p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 560px; }
+
+    /* ── INGREDIENTS ── */
+    .ingredients-section {
+      padding: 8rem 5vw;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+    .ingredient-cell {
+      background: var(--bg2);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+    }
+    .ingredient-cell:hover { background: var(--bg3); }
+    .ingredient-cell h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.6rem;
+    }
+    .ingredient-cell p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .ingredient-badge {
+      display: inline-block;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.25rem 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── CONTRAINDICATIONS ── */
+    .contra-section {
+      background: var(--bg2);
+      padding: 8rem 5vw;
+    }
+    .contra-inner { max-width: 1200px; margin: 0 auto; }
+    .contra-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .contra-item {
+      display: flex;
+      gap: 1rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+    .contra-icon {
+      color: var(--gold);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contra-item h4 { font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .contra-item p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    @media (max-width: 900px) {
+      .mission-section { grid-template-columns: 1fr; gap: 3rem; }
+      .ingredients-grid { grid-template-columns: 1fr 1fr; }
+      .contra-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .ingredients-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">UN<span>DO</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="training.html">Training</a></li>
+    <li><a href="gallery.html">Before & After</a></li>
+    <li><a href="faq.html">FAQs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="training.html">Training</a>
+  <a href="gallery.html">Before & After</a>
+  <a href="faq.html">FAQs</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb animate-fadeup"><a href="index.html">Home</a><span>›</span>About</div>
+    <span class="label animate-fadeup delay-1">Our Story</span>
+    <h1 class="animate-fadeup delay-2">About <em>UNDO®</em></h1>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission-section">
+  <div class="reveal">
+    <span class="label">Our Mission</span>
+    <h2>Born from the Need for Something Better</h2>
+    <div class="divider"></div>
+    <p>UNDO® was developed by veteran permanent makeup and tattoo artists who saw the same story repeat itself: a client regrets their tattoo or permanent makeup, searches for removal options, and is told the only choice is painful, expensive laser treatment — with no guarantee of success.</p>
+    <p>We knew there had to be a better way. Years of research, testing, and refinement later, UNDO® was born: a patent-pending, non-laser pigment removal system built from the ground up to be safe, effective, and accessible.</p>
+    <div class="pull-quote">
+      "Every client deserves a safe path forward — regardless of their skin tone, the ink color, or the treatment area."
+    </div>
+    <p>Today, UNDO® is used by certified professionals across the USA and Canada to safely remove permanent makeup, scalp micropigmentation, and small to medium body tattoos — with no laser, no burning, and no scarring.</p>
+  </div>
+  <div class="reveal delay-1">
+    <div class="values-grid">
+      <div class="value-box">
+        <span class="label">Safety First</span>
+        <p>Formulated with natural ingredients safe for all skin types, including delicate areas like the eyes.</p>
+      </div>
+      <div class="value-box">
+        <span class="label">Efficacy</span>
+        <p>Designed to deliver visible results with the minimum number of sessions possible.</p>
+      </div>
+      <div class="value-box">
+        <span class="label">Accessibility</span>
+        <p>Works on all skin tones and ink colors — a true universal removal solution.</p>
+      </div>
+      <div class="value-box">
+        <span class="label">Education</span>
+        <p>We train and certify professionals so every UNDO® treatment is performed at the highest standard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <div class="section-header reveal">
+      <span class="label">Our Journey</span>
+      <h2>The UNDO® Story</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2016</div>
+        <h3>The Problem Recognized</h3>
+        <p>Veteran permanent makeup artists begin documenting client frustration with laser removal — burns, scarring, and incomplete removal — and start researching alternatives.</p>
+      </div>
+      <div class="tl-item reveal delay-1">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018</div>
+        <h3>Formula Development Begins</h3>
+        <p>A team of artists and cosmetic chemists collaborate on a natural, non-thermal approach to pigment removal. Early prototypes are tested with promising results.</p>
+      </div>
+      <div class="tl-item reveal delay-2">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2019</div>
+        <h3>Clinical Testing & Refinement</h3>
+        <p>UNDO® undergoes rigorous testing across diverse skin types and ink colors. The multi-step system is refined to minimize sessions and maximize safety.</p>
+      </div>
+      <div class="tl-item reveal delay-3">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2020</div>
+        <h3>UNDO® Launches</h3>
+        <p>UNDO® officially launches with its patent-pending formula. The first certified technicians complete in-person training in Florida.</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022</div>
+        <h3>Expansion to Canada</h3>
+        <p>Growing demand leads to UNDO® expanding to Canada, with a dedicated distribution network and training program established for Canadian professionals.</p>
+      </div>
+      <div class="tl-item reveal delay-1">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024+</div>
+        <h3>Online Training & Global Reach</h3>
+        <p>UNDO® Masterclass online training launches, bringing professional certification to practitioners worldwide without the need for travel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section class="ingredients-section">
+  <div class="section-header reveal">
+    <span class="label">The Formula</span>
+    <h2>What's Inside UNDO®</h2>
+  </div>
+  <div class="ingredients-grid">
+    <div class="ingredient-cell reveal">
+      <div class="ingredient-badge">Active Agent</div>
+      <h4>Lactic Acid Complex</h4>
+      <p>A natural alpha-hydroxy acid that gently exfoliates and helps draw pigment to the surface of the skin for removal.</p>
+    </div>
+    <div class="ingredient-cell reveal delay-1">
+      <div class="ingredient-badge">Soothing</div>
+      <h4>Aloe Vera Extract</h4>
+      <p>Provides anti-inflammatory support, reducing redness and discomfort during and after treatment.</p>
+    </div>
+    <div class="ingredient-cell reveal delay-2">
+      <div class="ingredient-badge">Healing</div>
+      <h4>Vitamin C Ester</h4>
+      <p>Promotes collagen production and helps even skin tone during the healing process between sessions.</p>
+    </div>
+    <div class="ingredient-cell reveal">
+      <div class="ingredient-badge">Brightening</div>
+      <h4>Kojic Acid</h4>
+      <p>A naturally derived brightening agent that helps break down residual pigment and promotes uniform skin tone.</p>
+    </div>
+    <div class="ingredient-cell reveal delay-1">
+      <div class="ingredient-badge">Hydrating</div>
+      <h4>Hyaluronic Acid</h4>
+      <p>Maintains skin hydration throughout treatment, supporting the skin barrier and reducing downtime.</p>
+    </div>
+    <div class="ingredient-cell reveal delay-2">
+      <div class="ingredient-badge">Antimicrobial</div>
+      <h4>Tea Tree Oil</h4>
+      <p>Natural antimicrobial properties help protect the treated area during the healing process.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRAINDICATIONS -->
+<section class="contra-section">
+  <div class="contra-inner">
+    <div class="section-header reveal">
+      <span class="label">Important Information</span>
+      <h2>Who Should Avoid UNDO®</h2>
+    </div>
+    <p class="reveal" style="font-size:0.95rem; color:var(--cream-dk); max-width:640px;">UNDO® is safe for most adults. However, certain conditions require avoiding treatment. Your certified technician will review your health history before any procedure.</p>
+    <div class="contra-grid" style="margin-top:2rem;">
+      <div class="contra-item reveal">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Pregnancy & Nursing</h4>
+          <p>UNDO® should not be used on anyone who is pregnant or currently nursing.</p>
+        </div>
+      </div>
+      <div class="contra-item reveal delay-1">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Diabetes</h4>
+          <p>Diabetic clients should not receive UNDO® treatment due to impaired skin healing.</p>
+        </div>
+      </div>
+      <div class="contra-item reveal">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Blood Thinners</h4>
+          <p>Clients taking blood thinning medications should avoid treatment.</p>
+        </div>
+      </div>
+      <div class="contra-item reveal delay-1">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Chemotherapy</h4>
+          <p>Anyone currently undergoing chemotherapy or radiation therapy is not a candidate.</p>
+        </div>
+      </div>
+      <div class="contra-item reveal">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Active Skin Irritations</h4>
+          <p>Rashes, sunburn, active acne, or any skin irritation near the treatment area must be resolved first.</p>
+        </div>
+      </div>
+      <div class="contra-item reveal delay-1">
+        <div class="contra-icon">⚠</div>
+        <div>
+          <h4>Recent Botox</h4>
+          <p>Clients who have had Botox within the past two weeks near the treatment area should wait before proceeding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">UN<span>DO</span>®</div>
+      <p class="footer-tagline">A patent-pending non-laser pigment removal system developed by veteran permanent makeup and tattoo artists for safe, effective results.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About UNDO®</a></li>
+        <li><a href="training.html">Training</a></li>
+        <li><a href="gallery.html">Before & After</a></li>
+        <li><a href="faq.html">FAQs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Permanent Makeup Removal</a></li>
+        <li><a href="#">Scalp Micropigmentation</a></li>
+        <li><a href="#">Body Tattoo Removal</a></li>
+        <li><a href="#">Find a Technician</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Boca Raton, FL 33431</a></li>
+        <li><a href="tel:5617695742">(561) 769-5742</a></li>
+        <li><a href="mailto:info@undoremoval.com">info@undoremoval.com</a></li>
+        <li><a href="contact.html">Contact Form →</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNDO Removal®. All rights reserved.</span>
+    <span>Privacy Policy &nbsp;·&nbsp; Terms of Service</span>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+  document.getElementById('mobileClose').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
