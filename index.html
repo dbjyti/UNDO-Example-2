@@ -15,13 +15,61 @@
       align-items: center;
       overflow: hidden;
     }
+    /* ── VIDEO BACKGROUND ── */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+    .hero-video.loaded { opacity: 1; }
+
+    /* Multi-layer overlay: dark vignette + gold tint + left-fade for text legibility */
     .hero-bg {
       position: absolute;
       inset: 0;
+      z-index: 1;
       background:
-        radial-gradient(ellipse at 70% 40%, rgba(201,169,110,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 50%),
-        linear-gradient(160deg, #0A0907 0%, #110F0C 50%, #0D0B09 100%);
+        /* left text-safe dark zone */
+        linear-gradient(90deg, rgba(10,9,7,0.88) 0%, rgba(10,9,7,0.55) 50%, rgba(10,9,7,0.25) 100%),
+        /* top & bottom vignette */
+        linear-gradient(180deg, rgba(10,9,7,0.55) 0%, transparent 30%, transparent 70%, rgba(10,9,7,0.75) 100%),
+        /* subtle gold warmth */
+        radial-gradient(ellipse at 70% 40%, rgba(201,169,110,0.12) 0%, transparent 60%);
+    }
+
+    /* Fallback shown while video loads / if video fails */
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(160deg, #0A0907 0%, #110F0C 50%, #0D0B09 100%);
+    }
+
+    /* Mute button */
+    .hero-mute-btn {
+      position: absolute;
+      bottom: 3rem;
+      right: 5vw;
+      z-index: 5;
+      width: 42px; height: 42px;
+      border: 1px solid rgba(201,169,110,0.35);
+      background: rgba(10,9,7,0.55);
+      backdrop-filter: blur(8px);
+      color: var(--gold);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .hero-mute-btn:hover {
+      border-color: var(--gold);
+      background: rgba(10,9,7,0.8);
     }
     .hero-lines {
       position: absolute;
@@ -467,9 +515,50 @@
 
 <!-- ── HERO ── -->
 <section class="hero">
+
+  <!-- Fallback color while video loads -->
+  <div class="hero-fallback"></div>
+
+  <!--
+    BACKGROUND VIDEO
+    ─────────────────────────────────────────────────────
+    Replace the `src` below with your own video file.
+    For best results: MP4 format, 1920×1080, under 15MB.
+    The video is muted and autoplays per browser policy.
+
+    Free stock video suggestions (download & host yourself):
+      • https://www.pexels.com/search/videos/skin%20tattoo/
+      • https://www.pexels.com/search/videos/beauty%20spa/
+    ─────────────────────────────────────────────────────
+  -->
+  <video
+    class="hero-video"
+    id="heroBgVideo"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster=""
+    aria-hidden="true"
+  >
+    <!--
+      Add your video sources here, e.g.:
+      <source src="video/hero.mp4" type="video/mp4">
+      <source src="video/hero.webm" type="video/webm">
+
+      Below is a free Pexels embed used as a demo placeholder.
+      For production, download and self-host the video.
+    -->
+    <source src="https://www.pexels.com/download/video/3989586/?fps=25.0&h=1080&w=1920" type="video/mp4">
+    <source src="https://videos.pexels.com/video-files/3989586/3989586-hd_1920_1080_25fps.mp4" type="video/mp4">
+  </video>
+
+  <!-- Dark gradient overlay -->
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
 
+  <!-- Content -->
   <div class="hero-content">
     <span class="label animate-fadeup">Non-Laser Tattoo Removal</span>
     <h1 class="hero-h1 animate-fadeup delay-1">
@@ -488,6 +577,11 @@
     <div class="hero-stat-num">99%</div>
     <div class="hero-stat-label">Client Satisfaction</div>
   </div>
+
+  <!-- Mute / unmute toggle -->
+  <button class="hero-mute-btn" id="heroMuteBtn" title="Toggle sound" aria-label="Toggle sound">
+    <span id="muteIcon">🔇</span>
+  </button>
 
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
@@ -714,7 +808,7 @@
         <li><a href="#">2800 N Federal Hwy</a></li>
         <li><a href="#">Boca Raton, FL 33431</a></li>
         <li><a href="tel:5617695742">(561) 769-5742</a></li>
-        <li><a href="mailto:info@undoremoval.com">info@undoremoval.com</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#721b1c141d32071c161d00171f1d04131e5c111d1f"><span class="__cf_email__" data-cfemail="e1888f878ea1948f858e93848c8e97808dcf828e8c">[email&#160;protected]</span></a></li>
         <li><a href="contact.html">Contact Form →</a></li>
       </ul>
     </div>
@@ -725,7 +819,31 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── Video background ──
+  const heroBgVideo = document.getElementById('heroBgVideo');
+  const heroMuteBtn = document.getElementById('heroMuteBtn');
+  const muteIcon    = document.getElementById('muteIcon');
+
+  // Fade video in once it can play
+  heroBgVideo.addEventListener('canplay', () => {
+    heroBgVideo.classList.add('loaded');
+  });
+  // Fallback: if already ready (cached)
+  if (heroBgVideo.readyState >= 3) heroBgVideo.classList.add('loaded');
+
+  // Mute / unmute toggle
+  heroMuteBtn.addEventListener('click', () => {
+    heroBgVideo.muted = !heroBgVideo.muted;
+    muteIcon.textContent = heroBgVideo.muted ? '🔇' : '🔊';
+  });
+
+  // Pause video when tab is hidden (save resources)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) heroBgVideo.pause();
+    else heroBgVideo.play().catch(() => {});
+  });
+
   // Nav scroll effect
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
@@ -742,10 +860,4 @@
 
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+  co
